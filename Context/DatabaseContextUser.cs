@@ -47,7 +47,7 @@ namespace multitenant_app.Context
             }
 
             //Get connection string from HttpContext
-            var connectionString = _httpContextAccessor.HttpContext.Items["TenantConnection"] as string;
+            var connectionString = _httpContextAccessor.HttpContext.Items["UserConnectionString"] as string;
             if (string.IsNullOrEmpty(connectionString))
             {
                 //Can write custom exception

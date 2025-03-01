@@ -27,12 +27,14 @@ namespace multitenant_app.Controllers
         {
             try
             {
-                string databaseName ="MultiTenant"+ model.DatabaseName ?? model.Email.Substring(model.Email.IndexOf("@"));
+                string databaseName = "MultiTenant_" + model.DatabaseName ?? model.Email.Substring(model.Email.IndexOf("@"));
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
-                    DbName = databaseName
+                    DbName = databaseName,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
                 };
                 //Register user
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -46,7 +48,6 @@ namespace multitenant_app.Controllers
                         await _userManager.DeleteAsync(user);
                         return BadRequest();
                     }
-
                     await _userDatabaseService.CreateUserDatabase(databaseName);
                     return Ok();
                 }
