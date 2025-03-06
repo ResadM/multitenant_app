@@ -9,13 +9,13 @@ namespace multitenant_app.Context
         private readonly string? _connectionString;
         private readonly IConfiguration? _configuration;
 
-
+        //For Dymanic Tenant Connection
         public DatabaseContextUser(DbContextOptions<DatabaseContextUser> options, IHttpContextAccessor? httpContextAccessor, IConfiguration? configuration) : base(options)
         {
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
         }
-
+        //For Manual Migration (create and update database)
         public DatabaseContextUser(DbContextOptions<DatabaseContextUser> options, string? connectionString) : base(options)
         {
             _connectionString = connectionString;
@@ -32,7 +32,7 @@ namespace multitenant_app.Context
             //    return;
             //}
 
-
+            //Using when creating and updating user database on register and login
             if (!string.IsNullOrEmpty(_connectionString))
             {
                 optionsBuilder.UseSqlServer(_connectionString);
@@ -46,7 +46,7 @@ namespace multitenant_app.Context
                 throw new InvalidOperationException("HttpContext is not available. Ensure the application is correctly configured.");
             }
 
-            //Get connection string from HttpContext
+            //Get connection string from Http request
             var connectionString = _httpContextAccessor.HttpContext.Items["UserConnectionString"] as string;
             if (string.IsNullOrEmpty(connectionString))
             {

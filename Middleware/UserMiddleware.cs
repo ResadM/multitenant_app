@@ -20,21 +20,28 @@ namespace multitenant_app.Middleware
         }
         public async Task Invoke(HttpContext context)
         {
+            //Getting user from Http request
             var contextUser = context.User;
-            if(contextUser.Identity!.IsAuthenticated)
+            //Check if user is authenticated
+            if (contextUser.Identity!.IsAuthenticated)
             {
-                var userName= contextUser.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+                //Get user name from claims
+                var userName = contextUser.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
 
+                //Check if user name is not null or empty
                 if (!string.IsNullOrEmpty(userName))
                 {
+                    //Create scope to get database context
                     using (var scope = _serviceScopeFactory.CreateScope())
                     {
+                        //Get database context
                         var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContextAdmin>();
                         // Use dbContext here
                         var user = dbContext.Users.FirstOrDefault(x => x.UserName == userName);
 
                        if(user!=null)
-                        {  //You can check user role and based use role can return context
+                        {  
+                            //You can check user role and based use role can return context
 
                             //Get connection string and replace database name
                             string connectionString = _configuration.GetConnectionString("DataBaseContextUser").Replace("{DatabaseName}", user.DbName);

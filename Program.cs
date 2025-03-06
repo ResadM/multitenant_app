@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//Database Admin
+//Register Database Admin
 builder.Services.AddDbContext<DatabaseContextAdmin>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBaseContextAdmin")));
 builder.Services.AddScoped<Func<DatabaseContextAdmin>>((provider) => () => provider.GetService<DatabaseContextAdmin>()!);
 
@@ -85,9 +85,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-
-
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -96,5 +93,4 @@ app.UseAuthorization();
 app.UseMiddleware<UserMiddleware>();
 
 app.MapControllers();
-
 app.Run();

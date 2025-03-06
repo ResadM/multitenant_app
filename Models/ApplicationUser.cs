@@ -7,13 +7,13 @@ namespace multitenant_app.Models
     {
         [Required]
         [MaxLength(100)]
-        public string? DbName { get; set; }
+        public string DbName { get; set; }
 
         [Required]
         [MaxLength(100)]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
         [Required]
         [MaxLength(100)]
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
     }
 }
